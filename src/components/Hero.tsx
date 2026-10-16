@@ -22,23 +22,16 @@ export function Hero() {
         </picture>
       </div>
 
-      <p
-        className="animate-rise mt-6 text-[0.7rem] font-semibold uppercase tracking-[0.26em] text-accent-deep sm:text-xs"
-        style={{ animationDelay: '80ms' }}
-      >
-        Indian Street Food &amp; Boba
-      </p>
-
       {/* Kept on a single line at every width: the size scales with the
           viewport instead of wrapping. */}
       <h1
-        className="animate-rise mt-3 whitespace-nowrap font-display font-extrabold leading-[1.12] tracking-tight text-ink"
-        style={{ animationDelay: '140ms', fontSize: 'clamp(1.3rem, 6.6vw, 2.3rem)' }}
+        className="animate-rise mt-5 whitespace-nowrap font-display font-extrabold leading-[1.12] tracking-tight text-ink"
+        style={{ animationDelay: '90ms', fontSize: 'clamp(1.3rem, 6.6vw, 2.3rem)' }}
       >
         Big Flavours. Good Vibes.
       </h1>
 
-      <div className="animate-sweep mt-2 flex justify-center" style={{ animationDelay: '220ms' }}>
+      <div className="animate-sweep mt-2 flex justify-center" style={{ animationDelay: '170ms' }}>
         <HeadlineFlourish className="h-[1.6rem] w-[min(76vw,16.5rem)]" />
       </div>
     </section>
