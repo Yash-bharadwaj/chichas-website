@@ -47,6 +47,11 @@ export function OpeningHours({ delay = 0 }: { delay?: number }) {
             )}
           </div>
 
+          {/* One short line of context instead of a run-on footnote. */}
+          <p className="mt-1 text-[0.84rem] text-ink-faint">
+            {status ? `${status.detail} ET` : 'Times shown in ET.'}
+          </p>
+
           <dl className="mt-3 space-y-2.5">
             {hourGroups.map((group) => {
               const isToday = status ? (group.days as readonly number[]).includes(status.today) : false;
@@ -80,11 +85,6 @@ export function OpeningHours({ delay = 0 }: { delay?: number }) {
               );
             })}
           </dl>
-
-          <p className="mt-3 text-[0.76rem] leading-relaxed text-ink-faint">
-            {status ? `${status.detail} · ` : ''}All times are St. Augustine local time
-            (ET). Hours may vary on holidays.
-          </p>
         </div>
       </div>
     </section>

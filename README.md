@@ -145,8 +145,8 @@ Validate with the [Facebook sharing debugger](https://developers.facebook.com/to
   ratings or review counts appear anywhere, because none were supplied.
 * **The live status is computed in the restaurant's own time zone** (`America/New_York`) through the
   `Intl` time-zone database, so it is correct from any visitor's device and across daylight saving. If
-  a browser cannot resolve the zone, the badge is hidden rather than guessed. The card states that
-  hours may vary on holidays.
+  a browser cannot resolve the zone, the badge is hidden and the card falls back to stating that
+  times are in ET.
 * **No emojis** are used anywhere in the interface; all icons are `lucide-react` or official brand SVGs.
 * Decorative line art is original SVG, positioned only in the outer margins at very low contrast.
 * **Ambient motion** is defined as keyframes near the top of `src/index.css` and applied through the
