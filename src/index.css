@@ -1,0 +1,192 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  CHICHA'S design tokens.
+  Colours are stored as raw RGB triplets so Tailwind can apply opacity
+  modifiers (e.g. text-ink/70) to every themed colour.
+*/
+:root,
+[data-theme='light'] {
+  --page: 255 246 230; /* Creamy Ivory  #FFF6E6 */
+  --surface: 255 255 255;
+  --surface-soft: 253 246 234;
+  --line: 236 217 185;
+  --ink: 32 23 19; /* Deep Charcoal #201713 */
+  --ink-soft: 101 64 42; /* Spiced Brown  #65402A */
+  --ink-faint: 146 114 88;
+  --accent: 232 135 18; /* Deep Turmeric #E88712 */
+  --accent-deep: 193 105 8;
+  --accent-soft: 255 235 200;
+  --on-accent: 32 23 19;
+
+  --hero-from: 245 166 35; /* Saffron Orange #F5A623 */
+  --hero-to: 255 200 87; /* Warm Golden    #FFC857 */
+
+  --decor: 150 96 48;
+  --decor-opacity: 0.17;
+  --mote-opacity: 0.4;
+  --grain-opacity: 0.4;
+
+  --wash-a: 245 166 35;
+  --wash-b: 255 200 87;
+  --wash-opacity: 0.22;
+
+  --shadow-card: 0 1px 2px rgb(101 64 42 / 0.05), 0 10px 26px -14px rgb(101 64 42 / 0.3);
+  --shadow-card-hover: 0 2px 4px rgb(101 64 42 / 0.06), 0 18px 34px -16px rgb(101 64 42 / 0.4);
+  --shadow-hero: 0 18px 44px -20px rgb(101 64 42 / 0.55);
+}
+
+[data-theme='dark'] {
+  --page: 22 16 12; /* espresso */
+  --surface: 38 27 21;
+  --surface-soft: 48 34 26;
+  --line: 69 50 38;
+  --ink: 255 246 230;
+  --ink-soft: 227 205 175;
+  --ink-faint: 176 150 122;
+  --accent: 255 200 87; /* Warm Golden Yellow */
+  --accent-deep: 245 166 35;
+  --accent-soft: 58 40 24;
+  --on-accent: 26 18 12;
+
+  --hero-from: 232 135 18;
+  --hero-to: 255 200 87;
+
+  --decor: 214 150 78;
+  --decor-opacity: 0.12;
+  --mote-opacity: 0.3;
+  --grain-opacity: 0.22;
+
+  --wash-a: 232 135 18;
+  --wash-b: 120 66 20;
+  --wash-opacity: 0.2;
+
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 28px -16px rgb(0 0 0 / 0.75);
+  --shadow-card-hover: 0 2px 6px rgb(0 0 0 / 0.45), 0 20px 38px -18px rgb(0 0 0 / 0.85);
+  --shadow-hero: 0 20px 48px -22px rgb(0 0 0 / 0.8);
+}
+
+/*
+  Ambient motion. Everything here animates transform or opacity only, stays at
+  low amplitude and runs slowly, so the page feels alive without pulling focus
+  from the links. The prefers-reduced-motion block at the bottom disables it all.
+*/
+@keyframes breathe {
+  0%, 100% { transform: scale(1) translate3d(0, 0, 0); }
+  50% { transform: scale(1.06) translate3d(0, -1.2%, 0); }
+}
+
+@keyframes mote-rise {
+  0% { opacity: 0; transform: translate3d(0, 20px, 0) scale(0.7); }
+  18% { opacity: 1; }
+  78% { opacity: 1; }
+  100% { opacity: 0; transform: translate3d(14px, -150px, 0) scale(1.05); }
+}
+
+@keyframes sway {
+  0%, 100% { transform: rotate(-2.2deg); }
+  50% { transform: rotate(2.2deg); }
+}
+
+@keyframes pendulum {
+  0%, 100% { transform: rotate(-3.5deg); }
+  50% { transform: rotate(3.5deg); }
+}
+
+@keyframes turn {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* One slow pass of light along the headline swash, then a long pause. */
+@keyframes swash-sheen {
+  0% { transform: translateX(-90px); }
+  16% { transform: translateX(300px); }
+  100% { transform: translateX(300px); }
+}
+
+@keyframes ink-pop {
+  0%, 55% { opacity: 0; transform: scale(0.2); }
+  75% { opacity: 1; transform: scale(1.18); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.animate-breathe { animation: breathe 28s ease-in-out infinite; }
+.animate-sway { animation: sway 9s ease-in-out infinite; transform-origin: 20% 20%; }
+.animate-sway-slow { animation: sway 13s ease-in-out infinite; transform-origin: 50% 10%; }
+.animate-pendulum { animation: pendulum 7.5s ease-in-out infinite; transform-origin: 84% 18%; }
+.animate-turn { animation: turn 120s linear infinite; transform-origin: 50% 50%; }
+.animate-mote { animation: mote-rise linear infinite; }
+.animate-sheen { animation: swash-sheen 9s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+.animate-ink { animation: ink-pop 1.5s cubic-bezier(0.22, 1, 0.36, 1) both; transform-box: fill-box; transform-origin: center; }
+
+@layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-page font-sans text-ink antialiased;
+    overflow-x: hidden;
+    transition:
+      background-color 0.35s ease,
+      color 0.35s ease;
+  }
+
+  /* Themed, always-visible focus ring. */
+  :focus-visible {
+    outline: 2px solid rgb(var(--accent-deep));
+    outline-offset: 3px;
+    border-radius: 0.5rem;
+  }
+
+  ::selection {
+    background: rgb(var(--accent) / 0.35);
+    color: rgb(var(--ink));
+  }
+}
+
+@layer components {
+  .surface-card {
+    @apply rounded-card border border-line bg-surface shadow-card;
+    transition:
+      transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.25s ease,
+      border-color 0.25s ease,
+      background-color 0.35s ease;
+  }
+
+  /* Hover lift only where a real pointer exists, so phones never feel sticky. */
+  @media (hover: hover) and (pointer: fine) {
+    .surface-card:hover {
+      @apply -translate-y-0.5 border-accent/55 shadow-card-hover;
+    }
+  }
+
+  .surface-card:active {
+    transform: translateY(0) scale(0.988);
+  }
+}
+
+/* Honour the visitor's motion preference everywhere. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .surface-card:hover,
+  .surface-card:active {
+    transform: none;
+  }
+}
