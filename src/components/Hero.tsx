@@ -5,19 +5,19 @@ export function Hero() {
   return (
     <section className="pt-7 text-center sm:pt-9">
       {/* The supplied logo, untouched: original artwork, original proportions. */}
-      <div className="animate-bloom mx-auto w-[10.25rem] sm:w-[11.5rem] lg:w-[12.5rem]">
+      <div className="animate-bloom mx-auto w-[12.5rem] sm:w-[13.5rem] lg:w-[14.5rem]">
         <picture>
-          <source type="image/webp" srcSet={site.logo.srcSetWebp} sizes="(min-width: 1024px) 200px, (min-width: 640px) 184px, 164px" />
+          <source type="image/webp" srcSet={site.logo.srcSetWebp} sizes="(min-width: 1024px) 232px, (min-width: 640px) 216px, 200px" />
           <img
             src={site.logo.src}
-            srcSet={site.logo.srcSetJpg}
-            sizes="(min-width: 1024px) 200px, (min-width: 640px) 184px, 164px"
+            srcSet={site.logo.srcSetFallback}
+            sizes="(min-width: 1024px) 232px, (min-width: 640px) 216px, 200px"
             width={site.logo.width}
             height={site.logo.height}
             alt={site.logo.alt}
             fetchPriority="high"
             decoding="async"
-            className="h-auto w-full rounded-[1.75rem] shadow-hero ring-1 ring-black/5 dark:ring-white/10"
+            className="h-auto w-full rounded-[1.5rem] shadow-hero ring-1 ring-black/5 dark:ring-white/10"
           />
         </picture>
       </div>

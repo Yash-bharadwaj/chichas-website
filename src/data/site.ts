@@ -26,14 +26,14 @@ export const site = {
       'https://www.google.com/maps/search/?api=1&query=304+Ashourian+Ave+Unit+3-108%2C+St.+Augustine%2C+FL+32092',
   },
   logo: {
-    src: '/images/chichas-logo-480.jpg',
+    src: '/images/chichas-logo-480.png',
     srcSetWebp:
-      '/images/chichas-logo-240.webp 240w, /images/chichas-logo-320.webp 320w, /images/chichas-logo-480.webp 480w, /images/chichas-logo-640.webp 640w',
-    srcSetJpg:
-      '/images/chichas-logo-240.jpg 240w, /images/chichas-logo-320.jpg 320w, /images/chichas-logo-480.jpg 480w, /images/chichas-logo-640.jpg 640w',
+      '/images/chichas-logo-240.webp 240w, /images/chichas-logo-320.webp 320w, /images/chichas-logo-480.webp 480w, /images/chichas-logo-640.webp 640w, /images/chichas-logo-900.webp 900w',
+    srcSetFallback:
+      '/images/chichas-logo-240.png 240w, /images/chichas-logo-320.png 320w, /images/chichas-logo-480.png 480w, /images/chichas-logo-640.png 640w, /images/chichas-logo-900.png 900w',
     alt: 'CHICHA’S — Indian Street Food and Boba',
     width: 480,
-    height: 477,
+    height: 396,
   },
 } as const;
 

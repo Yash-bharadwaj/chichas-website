@@ -21,7 +21,7 @@ npm run dev        # http://localhost:5173
 | `npm run build` | Type-check, then build to `dist/` |
 | `npm run preview` | Serve the production build locally |
 | `npm run typecheck` | TypeScript only |
-| `npm run assets` | Regenerate every logo/icon/social image from `chichasLogo.jpeg` |
+| `npm run assets` | Regenerate every logo/icon/social image from `realLogo.PNG` |
 | `npm run check:hours` | Verify the open/closed logic, including both DST switches |
 
 ---
@@ -52,22 +52,31 @@ Light and dark are driven entirely by CSS custom properties in `src/index.css`
 
 ## Brand assets
 
-The master logo is `chichasLogo.jpeg` in the repo root. Everything in `public/images/` is generated
-from it by `scripts/generate-logo-assets.py`:
+The master logo is `realLogo.PNG` (4500x4500) in the repo root. Everything in `public/images/` is
+generated from it by `scripts/generate-logo-assets.py` — never edit those files by hand.
 
-* `chichas-logo-{240,320,480,640,928}.{webp,jpg}` — responsive hero logo (WebP with JPEG fallback).
-* `chichas-mark-{96,192}.png` — rounded header/footer mark.
-* `apple-touch-icon.png`, `icon-192.png`, `icon-512.png`, `maskable-512.png`, `favicon*.png`, `favicon.ico`.
-* `og-image.jpg` — 1200×630 social preview.
+The script cuts two framings, both of which are the same logo at different zoom levels:
 
-The script also repairs two defects in the master file: a 1px white strip along the top edge and a
-stray circle artifact near the top-left corner. The artwork itself is never redrawn or restretched —
-the logo is only ever scaled proportionally. The full, uncropped logo is what the page displays; the
-centred emblem crop is used **only** for icons at 48px and below, where the full badge is unreadable.
+* **Lockup** — the whole mark (arch, duo, wordmark, tagline), trimmed to its content and re-padded
+  evenly. This is what the page displays, as `chichas-logo-{240,320,480,640,900}.{webp,png}`. The
+  master's margins are uneven (472px left vs 568px right), so trimming and re-padding is what keeps
+  the logo optically centred.
+* **Emblem** — the arch and the duo alone, used for every icon at or below 192px, where the wordmark
+  and tagline turn to mush: `chichas-mark-{96,192}.png`, `apple-touch-icon.png`, `icon-{192,512}.png`,
+  `maskable-512.png`, `favicon-{16,32}.png` and `favicon.ico`.
 
-**Replacing the logo:** drop a new square image in as `chichasLogo.jpeg`, adjust `EMBLEM_BOX` /
-`ARTIFACT_BOX` at the top of the script if needed, then run `npm run assets` and rebuild. Pillow is
-the only requirement (`python3 -m pip install Pillow`).
+`og-image.jpg` (1200x630) puts the lockup on the logo's own saffron for social previews.
+
+The artwork is never redrawn, recoloured or stretched — only scaled proportionally and padded with
+its own background colour, which is seamless because that background is one flat saffron
+(`rgb(249, 155, 32)`). PNG fallbacks are palette-quantised to 256 colours, which roughly halves their
+size with no visible difference on this flat, hard-edged artwork; WebP is served first anyway.
+
+**Replacing the logo:** drop a new square image in as `realLogo.PNG`, re-measure `EMBLEM_BOX` at the
+top of the script if the composition changed, then run `npm run assets`. The script prints the new
+lockup aspect ratio — copy the matching `width`/`height` into `logo` in `src/data/site.ts` so the
+browser still reserves the right space. Pillow is the only requirement
+(`python3 -m pip install Pillow`).
 
 ---
 
