@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -9,8 +9,8 @@
       name="description"
       content="Indian street food and boba in St. Augustine, Florida. Explore the CHICHA'S menu, follow us on Instagram, join our WhatsApp community and get directions."
     />
-    <meta name="theme-color" content="#FFF6E6" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#16100C" media="(prefers-color-scheme: dark)" />
+    <!-- Matches the default (dark) theme; useTheme keeps it in sync on toggle. -->
+    <meta name="theme-color" content="#16100C" />
 
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png" />
@@ -43,19 +43,14 @@
     <link rel="preload" as="image" href="/images/chichas-logo-480.webp" fetchpriority="high" />
 
     <script>
-      // Resolve the theme before first paint so there is no flash of the wrong one.
+      // The site opens in dark by default; a visitor's saved choice wins.
+      // Resolved before first paint so there is no flash of the wrong theme.
       (function () {
         try {
           var stored = localStorage.getItem('chichas-theme');
-          var theme =
-            stored === 'light' || stored === 'dark'
-              ? stored
-              : window.matchMedia('(prefers-color-scheme: dark)').matches
-                ? 'dark'
-                : 'light';
-          document.documentElement.dataset.theme = theme;
+          document.documentElement.dataset.theme = stored === 'light' ? 'light' : 'dark';
         } catch (e) {
-          document.documentElement.dataset.theme = 'light';
+          document.documentElement.dataset.theme = 'dark';
         }
       })();
     </script>

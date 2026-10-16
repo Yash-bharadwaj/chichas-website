@@ -5,7 +5,6 @@ import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { InstagramGlyph, WhatsAppGlyph } from './components/BrandIcons';
 import { LinkCard } from './components/LinkCard';
-import { MapPin } from 'lucide-react';
 import { MenuCard } from './components/MenuCard';
 import { OpeningHours } from './components/OpeningHours';
 import { site } from './data/site';
@@ -51,20 +50,11 @@ export default function App() {
               iconClassName="bg-[#25D366] shadow-sm"
               delay={470}
             />
-
-            <LinkCard
-              href={site.links.directions}
-              title="Visit CHICHA’S"
-              subtitle="Come hungry. Leave happy."
-              icon={<MapPin className="h-[1.15rem] w-[1.15rem] text-white" strokeWidth={2.2} />}
-              iconClassName="bg-[rgb(var(--accent-deep))] shadow-sm"
-              delay={540}
-            />
           </div>
 
           <div className="mt-3 space-y-3">
-            <BusinessInfo delay={610} />
-            <OpeningHours delay={680} />
+            <BusinessInfo delay={540} />
+            <OpeningHours delay={610} />
           </div>
         </main>
 

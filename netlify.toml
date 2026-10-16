@@ -1,0 +1,42 @@
+# Netlify deployment config for the CHICHA'S link-in-bio site.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# Every path serves the app instead of Netlify's 404 page. The site is a single
+# page, so /menu, /whatsapp or a mistyped link all land on the real site rather
+# than an error. Status 200 keeps the URL the visitor typed.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Vite fingerprints everything in /assets, so it can be cached forever.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Logo and icon files are stable but not fingerprinted: cache for a week and
+# revalidate in the background, so regenerating them still reaches visitors.
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800, stale-while-revalidate=86400"
+
+# The HTML itself must always be fresh, or visitors keep an old asset manifest.
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "SAMEORIGIN"

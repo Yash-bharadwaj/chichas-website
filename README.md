@@ -44,10 +44,11 @@ Light and dark are driven entirely by CSS custom properties in `src/index.css`
 (`:root` / `[data-theme='dark']`), surfaced to Tailwind as semantic colours (`bg-surface`,
 `text-ink`, `text-accent-deep`, …). To restyle the site, change the tokens, not the components.
 
-* First visit follows the device's `prefers-color-scheme`.
-* The visitor's explicit choice is stored in `localStorage` under `chichas-theme`.
+* **The site opens in dark by default**, whatever the device's `prefers-color-scheme` says.
+* A visitor who flips the toggle has that choice stored in `localStorage` under `chichas-theme`, and
+  it wins on every later visit.
 * A tiny inline script in `index.html` applies the theme before first paint, so there is no flash.
-* While no explicit choice has been made, the site keeps following the OS setting live.
+* The `theme-color` meta tag is kept in sync with the active theme, so browser chrome matches.
 
 ## Brand assets
 
@@ -70,28 +71,44 @@ the only requirement (`python3 -m pip install Pillow`).
 
 ---
 
-## Deploying to Vercel
+## Deploying to Netlify
 
-**From the dashboard:** push this repo to GitHub, then *New Project → Import*. Vercel detects Vite;
-confirm the settings and deploy.
+`netlify.toml` in the repo root already holds the build settings, so there is nothing to configure in
+the UI.
 
-| Setting | Value |
-| --- | --- |
-| Framework preset | Vite |
-| Build command | `npm run build` |
-| Output directory | `dist` |
-| Install command | `npm install` |
-| Node version | 18 or newer |
+**From the dashboard:** *Add new site → Import an existing project*, pick this GitHub repo, and
+deploy. Netlify reads the build command (`npm run build`), the publish directory (`dist`) and the Node
+version from `netlify.toml`.
 
 **From the CLI:**
 
 ```bash
-npm i -g vercel
-vercel          # preview deployment
-vercel --prod   # production
+npm i -g netlify-cli
+netlify deploy          # draft URL to check first
+netlify deploy --prod   # production
 ```
 
-The site is fully static — no environment variables or server runtime required.
+### Why there are no routing errors
+
+The site is one page, but visitors paste links with paths all the time. Two things cover that:
+
+* `netlify.toml` has a catch-all `/* → /index.html` rewrite at status **200**, so any path renders the
+  real site at the URL the visitor typed instead of Netlify's 404 page.
+* `public/_redirects` carries the same rule into `dist/`, so a drag-and-drop deploy of the folder
+  behaves identically even without the toml file.
+
+Real files always win over the catch-all, so `/images/…`, `/favicon.ico`, `/robots.txt` and
+`/site.webmanifest` still serve normally. Every asset is referenced from the site root, so they
+resolve correctly no matter which path served the HTML.
+
+`netlify.toml` also sets cache headers: fingerprinted `/assets/*` forever, `/images/*` for a week with
+background revalidation, and `index.html` always revalidated so nobody gets stranded on a stale build.
+
+### Deploying to Vercel instead
+
+Vercel detects Vite automatically — build command `npm run build`, output directory `dist`, Node 18+.
+`vercel --prod` from the project root also works. The site is fully static either way, with no
+environment variables or server runtime.
 
 ### One thing to do after the first deploy
 
@@ -101,8 +118,8 @@ Open Graph images must be absolute URLs. In `index.html`, replace:
 <meta property="og:image" content="/images/og-image.jpg" />
 ```
 
-with your real domain, e.g. `https://chichas.vercel.app/images/og-image.jpg`, and redeploy. Until then
-the page title and description still preview correctly; only the image may not render in some apps.
+with your real domain, e.g. `https://chichas.netlify.app/images/og-image.jpg`, and redeploy. Until
+then the title and description still preview correctly; only the image may not render in some apps.
 Validate with the [Facebook sharing debugger](https://developers.facebook.com/tools/debug/).
 
 ---
